@@ -1,0 +1,105 @@
+{
+  "Member": {
+    "s0000001": {
+      "Password": "1111",
+      "Name": "อนุสรณ์ เทียนนาค",
+      "Status": "Student"
+    },
+    "s0000002": {
+      "Password": "2222",
+      "Name": "นางสาวราตรี ประดับดาว",
+      "Status": "Student"
+    },
+    "t0000001": {
+      "Password": "t0000001",
+      "Name": "ประกอบสุข รักความซื่อ",
+      "Status": "Teacher"
+    },
+    "t0000002": {
+      "Password": "t0000002",
+      "Name": "ประเสริฐ ศรี",
+      "Status": "Teacher"
+    }
+  },
+  "Student_anwser": {
+    "01237406": {
+      "Subject": "WEB TECHNOLOGY",
+      "Chapter1": {
+        "No1": {
+          "s0000001": {
+            "Answer": "B"
+          }
+        }
+      }
+    }
+  },
+  "Student_subject": {
+    "s0000001": {
+      "01237406": {
+        "Subject": "WEB TECHNOLOGY"
+      }
+    },
+    "s0000002": {
+      "01236120": {
+        "Subject": "OBJECT-ORIENTED PROGRAMMING"
+      },
+      "01237406": {
+        "Subject": "WEB TECHNOLOGY"
+      }
+    }
+  },
+  "Teacher_subject": {
+    "t0000001": {
+      "01237406": {
+        "Subject": "WEB TECHNOLOGY"
+      },
+      "01236120": {
+        "Subject": "OBJECT-ORIENTED PROGRAMMING"
+      }
+    },
+    "t0000002": {
+      "01236120": {
+        "Subject": "OBJECT-ORIENTED PROGRAMMING"
+      }
+    }
+  },
+  "Test_data": {
+    "01237406": {
+      "Subject": "WEB TECHNOLOGY",
+      "Chapter1": {
+        "No1": {
+          "Question": "พื้นที่ 2 ไร่ 3 งานเท่ากับกี่ตารางวา",
+          "Achoice": "500",
+          "Bchoice": "1100",
+          "Cchoice": "2300",
+          "Dchoice": "600",
+          "Echoice": "ไม่มีข้อใดถูก",
+          "correctanswer": "B",
+          "type": "Choice"
+        }
+      },
+      "Chapter2": {
+        "No3": {
+          "Question": "เสารั้วบ้านปักห่างกัน 2 เมตร ระหว่างต้นที่ 1 กับ 1...",
+          "Achoice": "24",
+          "Bchoice": "",
+          "Cchoice": "",
+          "Dchoice": "",
+          "Echoice": "",
+          "correctanswer": "24",
+          "type": "Writing"
+        }
+      }
+    }
+  },
+  "Test_detail": {
+    "01237406": {
+      "Subject": "WEB TECHNOLOGY",
+      "Chapter1": {
+        "totalQuestion": "5",
+        "lockStatus": "Student",
+        "Username": "t0000001"
+      }
+    }
+  }
+}
