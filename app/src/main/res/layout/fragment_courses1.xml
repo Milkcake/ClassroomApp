@@ -69,11 +69,6 @@
         </android.support.v7.widget.RecyclerView>
     </RelativeLayout>
 
-    <FrameLayout
-        android:id="@+id/bottomLayoutSelectMenu"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_behavior="@string/bottom_sheet_behavior"/>
 
     <!--FabButton: Insert subject-->
     <android.support.design.widget.FloatingActionButton

@@ -56,10 +56,10 @@
 
 
     <!-- Dialog CourseFragment -->
-    <string name="exam_tests"><![CDATA[Exams & Tests]]></string>
-    <string name="videos">Videos</string>
-    <string name="document_files">Document Files</string>
-    <string name="delete_this_subject">Delete This Subject</string>
+    <string name="exam_tests"><![CDATA[EXAMS & TESTS]]></string>
+    <string name="videos">VIDEOS</string>
+    <string name="document_files">DOCUMENT FILES</string>
+    <string name="remove_this_subject">REMOVE THIS SUBJECT</string>
 
 
 </resources>

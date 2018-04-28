@@ -24,16 +24,22 @@ import java.util.List;
 
 public class SubjectListAdapter extends RecyclerView.Adapter<SubjectListAdapter.SubjectViewHolder> {
 
-    Context mContext;
-    List<Subject> subjects;
-    Dialog menuDialog;
-    BottomSheetSelectMenu bottomSelectMenu;
-    View v;
+    public interface OnItemClickListener{
+        void onItemClick(Subject subject);
+    }
+
+    private Context mContext;
+    private final List<Subject> subjects;
+    private Dialog menuDialog;
+    private BottomSheetSelectMenu bottomSelectMenu;
+    private View v;
+    private final OnItemClickListener listener;
 
 
-    public SubjectListAdapter(Context mContext, List<Subject> subjects) {
+    public SubjectListAdapter(Context mContext, List<Subject> subjects, OnItemClickListener listener) {
         this.mContext = mContext;
         this.subjects = subjects;
+        this.listener = listener;
     }
 
     @NonNull
@@ -42,37 +48,14 @@ public class SubjectListAdapter extends RecyclerView.Adapter<SubjectListAdapter.
 
         v = LayoutInflater.from(mContext).inflate(R.layout.list_subject_names, parent, false);
         final SubjectViewHolder vHolder = new SubjectViewHolder(v);
-
-
-        bottomSelectMenu = new BottomSheetSelectMenu();
-        vHolder.list_item_subject_id.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(mContext, "Subject " + String.valueOf(vHolder.textSubject), Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        // Dialog init
-        /*menuDialog = new Dialog(mContext);
-        menuDialog.setContentView(R.layout.dialog_menu_subject);
-        menuDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        vHolder.list_item_subject_id.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(mContext, "Subject " + String.valueOf(vHolder.getAdapterPosition()+1), Toast.LENGTH_SHORT).show();
-                menuDialog.show();
-            }
-        });*/
-
-
-
         return vHolder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull SubjectViewHolder holder, int position) {
-        holder.textSubjectID.setText(subjects.get(position).getSubjectID());
-        holder.textSubject.setText(subjects.get(position).getSubjectname());
+        /*holder.textSubjectID.setText(subjects.get(position).getSubjectID());
+        holder.textSubject.setText(subjects.get(position).getSubjectname());*/
+        holder.bind(subjects.get(position), listener);
     }
 
     @Override
@@ -91,6 +74,17 @@ public class SubjectListAdapter extends RecyclerView.Adapter<SubjectListAdapter.
             list_item_subject_id = itemView.findViewById(R.id.list_item_subject_id);
             textSubjectID = itemView.findViewById(R.id.textSubjectId);
             textSubject = itemView.findViewById(R.id.textSubject);
+        }
+
+        public void bind(final Subject subject, final OnItemClickListener listener) {
+            textSubjectID.setText(subject.getSubjectID());
+            textSubject.setText(subject.getSubjectname());
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onItemClick(subject);
+                }
+            });
         }
     }
 }

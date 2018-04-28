@@ -1,76 +1,115 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:gravity="center_horizontal"
-    android:padding="16dp">
+    app:layout_behavior="android.support.design.widget.BottomSheetBehavior">
 
-    <TextView
-        android:textAlignment="center"
-        android:background="@color/black1"
-        android:id="@+id/bottomSelectMenu"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="SELECT MENU"
-        android:textColor="@color/white"
-        android:textSize="24dp"
-        android:textStyle="bold" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="10dp" />
+        <TextView
+            android:id="@+id/bottomSelectMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@drawable/search_layout"
+            android:backgroundTint="@color/grey3"
+            android:text="SELECT MENU"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="16dp"
+            android:textStyle="bold" />
 
-    <Button
-        android:id="@+id/btnExam"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="start"
-        android:background="@color/white"
-        android:drawableLeft="@drawable/ic_test"
-        android:drawablePadding="20dp"
-        android:padding="20dp"
-        android:text="@string/exam_tests"
-        android:textAlignment="textStart"/>
+        <LinearLayout
+            android:id="@+id/fragmentMenu1Exam"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:orientation="horizontal"
+            android:padding="16dp">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                app:srcCompat="@drawable/ic_test" />
+            <TextView
+                android:layout_gravity="center"
+                android:layout_marginLeft="16dp"
+                android:text="@string/exam_tests"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
 
-    <Button
-        android:id="@+id/btnVDO"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="start"
-        android:background="@color/white"
-        android:drawableLeft="@drawable/ic_play"
-        android:drawablePadding="20dp"
-        android:padding="20dp"
-        android:text="@string/videos"
-        android:textAlignment="textStart"/>
+        <LinearLayout
+            android:id="@+id/fragmentMenu1Vdo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:orientation="horizontal"
+            android:padding="16dp">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                app:srcCompat="@drawable/ic_play" />
+            <TextView
+                android:layout_gravity="center"
+                android:layout_marginLeft="16dp"
+                android:text="@string/videos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
 
-    <Button
-        android:id="@+id/btnFile"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="start"
-        android:background="@color/white"
-        android:drawableLeft="@drawable/ic_file"
-        android:drawablePadding="20dp"
-        android:padding="20dp"
-        android:text="@string/document_files"
-        android:textAlignment="textStart"/>
+        <LinearLayout
+            android:id="@+id/fragmentMenu1Files"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:orientation="horizontal"
+            android:padding="16dp">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                app:srcCompat="@drawable/ic_file" />
+            <TextView
+                android:layout_gravity="center"
+                android:layout_marginLeft="16dp"
+                android:text="@string/document_files"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
 
-    <Button
-        android:id="@+id/btnDelete"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="start"
-        android:background="@color/white"
-        android:drawableLeft="@drawable/ic_remove"
-        android:drawablePadding="20dp"
-        android:padding="20dp"
-        android:text="@string/delete_this_subject"
-        android:textAlignment="textStart" />
+        <LinearLayout
+            android:id="@+id/fragmentMenu1Remove"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:orientation="horizontal"
+            android:padding="16dp">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                app:srcCompat="@drawable/ic_remove" />
+            <TextView
+                android:layout_gravity="center"
+                android:layout_marginLeft="16dp"
+                android:text="@string/remove_this_subject"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+    </LinearLayout>
 
 
-
-</LinearLayout>
+</android.support.design.widget.CoordinatorLayout>

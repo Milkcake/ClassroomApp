@@ -28,11 +28,16 @@ import com.google.firebase.database.ValueEventListener;
 
 public class TeacherActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
+    //<------------------------------------------------>
     final String TAG = "TTwTT";
     //-- DrawerLayout --***//
     private DrawerLayout drawerLayout;
     private TextView textUsername, textStatus, textName;
-    private LinearLayout navHead;
+    private Toolbar toolbar;
+    private NavigationView navigationView;
+    private View headerView;
+    //<------------------------------------------------>
+
 
 
     private boolean doubleBackToExitPressedOnce;
@@ -42,37 +47,49 @@ public class TeacherActivity extends AppCompatActivity implements NavigationView
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_teacher);
-        // TODO;
-        //-- Toolbar & DrawerLayout --***//
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
-        drawerLayout = findViewById(R.id.drawerLayout);
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
-                R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawerLayout.addDrawerListener(toggle);
-        toggle.syncState();
+        initInstance();
+        displayDrawerLayout();
+        initFirebase();
 
+        //------ Replace null Fragment -----***//
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     new TeacherCoursesFragment()).commit();
             navigationView.setCheckedItem(R.id.nav_coures);
         }
 
+    }
+
+
+    //<------------------------------- Pattern drawerLayout ---------------------------------------->//
+    private void initInstance() {
+        // TODO;
+        //-- Toolbar & DrawerLayout --***//
+        toolbar = findViewById(R.id.toolbar);
+        drawerLayout = findViewById(R.id.drawerLayout);
+        navigationView = findViewById(R.id.nav_view);
         //-----------------------------------------------//
-
-
-
-        //------------ Receive Intent from SignIn ------------//
-        View headerView = navigationView.getHeaderView(0);
+        //------------ Receive Intent from SignIn ------------***//
+        headerView = navigationView.getHeaderView(0);
         textUsername = headerView.findViewById(R.id.txtUsername);
         textStatus = headerView.findViewById(R.id.txtStatus);
         textName = headerView.findViewById(R.id.txtName);
+        //------------------------------------------------------//
+    }
 
 
-        //Init Firebase
+    private void displayDrawerLayout() {
+        setSupportActionBar(toolbar);
+        navigationView.setNavigationItemSelectedListener(this);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
+                R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+    }
+
+    private void initFirebase() {
+        //Init Firebase SignIn
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         final DatabaseReference table_member = database.getReference("Member");
         table_member.addValueEventListener(new ValueEventListener() {
@@ -89,15 +106,9 @@ public class TeacherActivity extends AppCompatActivity implements NavigationView
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
             }
         });
-
-
-        //------------------------------------------------------//
     }
-
-
 
     //-- Toolbar & DrawerLayout --***//
     @Override
@@ -155,7 +166,15 @@ public class TeacherActivity extends AppCompatActivity implements NavigationView
         }, 2000);
     }
     //-----------------------------------------------//
-
+    //<---------------------------------------------------------------------------------------------------->//
+    /*
+    *
+    *
+    *
+    *
+    *
+    */
+    //--------- Function ---------------------------//
 
 
 
