@@ -3,8 +3,6 @@ package com.example.riko.classroomapplication.manager;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -12,13 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.riko.classroomapplication.Model.Subject;
 import com.example.riko.classroomapplication.R;
-import com.example.riko.classroomapplication.TeacherCoursesFragment;
-import com.example.riko.classroomapplication.TeacherMenuActivity;
-import com.example.riko.classroomapplication.View.BottomSheetSelectMenu;
 
 import java.util.List;
 
@@ -30,8 +24,6 @@ public class SubjectListAdapter extends RecyclerView.Adapter<SubjectListAdapter.
 
     private Context mContext;
     private final List<Subject> subjects;
-    private Dialog menuDialog;
-    private BottomSheetSelectMenu bottomSelectMenu;
     private View v;
     private final OnItemClickListener listener;
 

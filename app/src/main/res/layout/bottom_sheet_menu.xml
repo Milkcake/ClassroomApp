@@ -89,7 +89,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/fragmentMenu1Remove"
+            android:id="@+id/DialogMenu1Remove"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="true"

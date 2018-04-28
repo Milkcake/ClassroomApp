@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialog;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -49,6 +50,7 @@ public class TeacherCoursesFragment extends Fragment implements View.OnClickList
     private BottomSheetDialog bottomSheetMenu;
     private SubjectListAdapter subjectListAdapter;
     private View view, sheetView;
+    private CoordinatorLayout exam, vdo, files, delete;
 
 
     public TeacherCoursesFragment() {
@@ -106,9 +108,12 @@ public class TeacherCoursesFragment extends Fragment implements View.OnClickList
 
     // Bottom sheet dialog: Select menu
     private void bottomSheetSelectMenu() {
-
         bottomSheetMenu = new BottomSheetDialog(getActivity());
         sheetView = getActivity().getLayoutInflater().inflate(R.layout.bottom_sheet_menu, null);
+//        exam = sheetView.findViewById(R.id.fragmentMenu1Exam);
+//        vdo = sheetView.findViewById(R.id.fragmentMenu1Vdo);
+//        files = sheetView.findViewById(R.id.fragmentMenu1Files);
+//        delete = sheetView.findViewById(R.id.DialogMenu1Remove);
         bottomSheetMenu.setContentView(sheetView);
     }
     private void displaySelectMenu() {
