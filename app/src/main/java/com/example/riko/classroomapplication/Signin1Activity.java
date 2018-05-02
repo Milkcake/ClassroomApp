@@ -64,7 +64,7 @@ public class Signin1Activity extends AppCompatActivity{
                                 progressDialog.dismiss();
                                 Member member = dataSnapshot.child(editextUsername.getText().toString()).getValue(Member.class);
                                 if (member.getPassword().equals(editextPassword.getText().toString())) {
-                                    Toast.makeText(Signin1Activity.this, "Sign In successfully! ", Toast.LENGTH_SHORT).show();
+                                    //Toast.makeText(Signin1Activity.this, "Sign In successfully! ", Toast.LENGTH_SHORT).show();
 
                                     //TODO:
                                     if (member.getStatus().equals("Teacher")){
@@ -73,14 +73,14 @@ public class Signin1Activity extends AppCompatActivity{
                                         signIn.putExtra("Status", member.getStatus());
                                         signIn.putExtra("Name", member.getName());
                                         startActivity(signIn);
-                                        Toast.makeText(Signin1Activity.this, "Teacher", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(Signin1Activity.this, "Sign In successfully! Welcome Teacher", Toast.LENGTH_SHORT).show();
                                     } else {
                                         Intent signIn = new Intent(Signin1Activity.this, StudentActivity.class);
                                         signIn.putExtra("Username", member.getUsername());
                                         signIn.putExtra("Status", member.getStatus());
                                         signIn.putExtra("Name", member.getName());
                                         startActivity(signIn);
-                                        Toast.makeText(Signin1Activity.this, "Student", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(Signin1Activity.this, "Sign In successfully! Welcome Student", Toast.LENGTH_SHORT).show();
                                     }
 
                                 } else {

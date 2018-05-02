@@ -45,7 +45,8 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="course">Course</string>
+    <string name="home">Home</string>
+    <string name="courses">Courses</string>
     <string name="changepw">Change Password</string>
     <string name="deleteaccount">Delete Account</string>
     <string name="logout">Sign Out</string>

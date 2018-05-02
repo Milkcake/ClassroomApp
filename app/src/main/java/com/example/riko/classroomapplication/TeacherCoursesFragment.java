@@ -1,12 +1,11 @@
 package com.example.riko.classroomapplication;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialog;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -18,20 +17,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.riko.classroomapplication.Model.Subject;
 import com.example.riko.classroomapplication.manager.SubjectListAdapter;
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +41,7 @@ public class TeacherCoursesFragment extends Fragment implements View.OnClickList
     private BottomSheetDialog bottomSheetMenu;
     private SubjectListAdapter subjectListAdapter;
     private View view, sheetView;
-    private CoordinatorLayout exam, vdo, files, delete;
+    private LinearLayout exam, vdo, files, delete;
 
 
     public TeacherCoursesFragment() {
@@ -110,14 +101,49 @@ public class TeacherCoursesFragment extends Fragment implements View.OnClickList
     private void bottomSheetSelectMenu() {
         bottomSheetMenu = new BottomSheetDialog(getActivity());
         sheetView = getActivity().getLayoutInflater().inflate(R.layout.bottom_sheet_menu, null);
-//        exam = sheetView.findViewById(R.id.fragmentMenu1Exam);
-//        vdo = sheetView.findViewById(R.id.fragmentMenu1Vdo);
-//        files = sheetView.findViewById(R.id.fragmentMenu1Files);
-//        delete = sheetView.findViewById(R.id.DialogMenu1Remove);
         bottomSheetMenu.setContentView(sheetView);
+        initSelectMenu();
+        menuClickListener();
+    }
+    private void initSelectMenu() {
+        exam = sheetView.findViewById(R.id.fragmentMenu1Exam);
+        vdo = sheetView.findViewById(R.id.fragmentMenu1Vdo);
+        files = sheetView.findViewById(R.id.fragmentMenu1Files);
+        delete = sheetView.findViewById(R.id.DialogMenu1Remove);
+    }
+    private void menuClickListener() {
+        exam.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getActivity(), "Exams & Tests", Toast.LENGTH_SHORT).show();
+                Intent exams = new Intent(getActivity(), TeacherMenuExamsActivity.class);
+                startActivity(exams);
+            }
+        });
+
+        vdo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getActivity(), "Video", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        files.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getActivity(), "Document Files", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getActivity(), "Delete this subject", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
     private void displaySelectMenu() {
-        Toast.makeText(getContext(), "Subect Clicked", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), "Subject Clicked", Toast.LENGTH_SHORT).show();
         bottomSheetMenu.show();
     }
 
@@ -147,6 +173,7 @@ public class TeacherCoursesFragment extends Fragment implements View.OnClickList
     public void onClick(View v) {
         if (v == searchBtn) {
             Toast.makeText(getActivity(), "Started Search", Toast.LENGTH_SHORT).show();
+            firebaseSubjectSearch();
         } else if (v == fab) {
             Snackbar.make(view, "Here's a Snackbar", Snackbar.LENGTH_LONG).setAction("Action", new View.OnClickListener() {
                 @Override
@@ -157,6 +184,8 @@ public class TeacherCoursesFragment extends Fragment implements View.OnClickList
         }
     }
 
+    private void firebaseSubjectSearch() {
+    }
 
 
     @Override

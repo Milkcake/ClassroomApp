@@ -6,8 +6,6 @@ public class Subject {
     private String Subjectname;
 
 
-    public Subject() {
-    }
 
     public Subject(String subjectID, String subjectname) {
         SubjectID = subjectID;

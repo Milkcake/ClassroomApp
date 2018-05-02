@@ -29,7 +29,7 @@
         <activity android:name=".Signin1Activity" android:screenOrientation="portrait"/>
         <activity android:name=".TeacherActivity" android:screenOrientation="portrait"/>
         <activity android:name=".StudentActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".TeacherMenuActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".TeacherMenuExamsActivity" android:screenOrientation="portrait"/>
 
         <meta-data
             android:name="preloaded_fonts"
