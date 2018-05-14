@@ -20,7 +20,9 @@ import com.google.firebase.database.ValueEventListener;
 
 public class Signup1Activity extends AppCompatActivity {
 
-    private EditText editextUsername, editextPassword, editextName;
+    private EditText editextUsername;
+    private EditText editextPassword;
+    private EditText editextName;
     private RadioGroup radioGroupStatus;
     private RadioButton radioStatus;
     private Button buttonRegister;

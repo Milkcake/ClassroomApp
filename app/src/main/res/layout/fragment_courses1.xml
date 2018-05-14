@@ -65,7 +65,8 @@
             android:layout_marginTop="50dp"
             android:scrollbars="vertical"
             android:focusable="true"
-            android:foreground="?android:attr/selectableItemBackground"/>
+            android:foreground="?android:attr/selectableItemBackground"
+            android:background="@color/white"/>
     </RelativeLayout>
 
 

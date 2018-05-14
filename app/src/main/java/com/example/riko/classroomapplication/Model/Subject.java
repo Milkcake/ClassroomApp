@@ -2,30 +2,30 @@ package com.example.riko.classroomapplication.Model;
 
 public class Subject {
 
-    private String SubjectID;
-    private String Subjectname;
+    private String subjectID;
+    private String subjectname;
 
-
+    public Subject() {
+    }
 
     public Subject(String subjectID, String subjectname) {
-        SubjectID = subjectID;
-        Subjectname = subjectname;
+        this.subjectID = subjectID;
+        this.subjectname = subjectname;
     }
 
     public String getSubjectID() {
-        return SubjectID;
-    }
-
-    public void setSubjectID(String subjectID) {
-        SubjectID = subjectID;
+        return subjectID;
     }
 
     public String getSubjectname() {
-        return Subjectname;
+        return subjectname;
+    }
+
+    public void setSubjectID(String subjectID) {
+        this.subjectID = subjectID;
     }
 
     public void setSubjectname(String subjectname) {
-        Subjectname = subjectname;
+        this.subjectname = subjectname;
     }
-
 }

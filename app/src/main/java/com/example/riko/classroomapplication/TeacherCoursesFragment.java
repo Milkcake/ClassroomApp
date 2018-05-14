@@ -2,6 +2,7 @@ package com.example.riko.classroomapplication;
 
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -9,6 +10,9 @@ import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.CardView;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -22,7 +26,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.riko.classroomapplication.Model.Subject;
-import com.example.riko.classroomapplication.manager.SubjectListAdapter;
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,13 +46,17 @@ public class TeacherCoursesFragment extends Fragment implements View.OnClickList
     private ImageButton searchBtn;
     private TextView textSubjectID, textSubjectname;
     private RecyclerView recyclerViewSubject;
-    private List<Subject> subjects;
     private FloatingActionButton fab;
     private EditText searchField;
     private BottomSheetDialog bottomSheetMenu;
-    private SubjectListAdapter subjectListAdapter;
-    private View view, sheetView;
+    private View view;
     private LinearLayout exam, vdo, files, delete;
+    private FirebaseDatabase database;
+    private DatabaseReference table_subject;
+    //private SubjectAdapter subjectAdapter;
+    private List<Subject> listSubjectID;
+    private List<Subject> listSubjectName;
+    private FirebaseRecyclerAdapter recyclerAdapter;
 
 
     public TeacherCoursesFragment() {
@@ -51,155 +66,189 @@ public class TeacherCoursesFragment extends Fragment implements View.OnClickList
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_courses1, container, false);
-
         initInstance();
-        searchBtn.setOnClickListener(this);
-        fab.setOnClickListener(this);
-        recyclerViewSubjectList();
-        bottomSheetSelectMenu();
-        fabButtomAddSubject();
-
         return view;
     }
 
 
     private void initInstance() {
+        //--------------------- Firebase ----------------------------//
+        //database = FirebaseDatabase.getInstance();
+        //table_subject = database.getReference("Subject");
+
         //-------------------- Search --------------------------//
         textSubjectID = view.findViewById(R.id.textSubjectId);
         textSubjectname = view.findViewById(R.id.textSubject);
         searchField = view.findViewById(R.id.search_field);
         searchBtn = view.findViewById(R.id.searchBtn);
+        searchBtn.setOnClickListener(this);
 
         //---------- Fad Button -------------//
         fab = view.findViewById(R.id.fabPlus);
 
         //--------------- RecyclerView --------------------//
         recyclerViewSubject = view.findViewById(R.id.recyclerViewSubject);
-    }
-
-
-    //RecyclerView: subject
-    private void recyclerViewSubjectList() {
-        //<----------------- RecyclerView: subject ---------------------->
-        subjectListAdapter = new SubjectListAdapter(getContext(), subjects, new SubjectListAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(Subject subject) {
-                displaySelectMenu();
-            }
-        });
         recyclerViewSubject.setHasFixedSize(true);
-        recyclerViewSubject.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerViewSubject.setAdapter(subjectListAdapter);
-        subjects = new ArrayList<>();
-        //<-----------------------------------------------------------//>
-
-    }
-
+        RecyclerView.LayoutManager LM = new LinearLayoutManager(view.getContext());
+        recyclerViewSubject.setLayoutManager(LM);
+        recyclerViewSubject.setItemAnimator(new DefaultItemAnimator());
+        recyclerViewSubject.addItemDecoration(new DividerItemDecoration(view.getContext(), LinearLayoutManager.VERTICAL));
+        recyclerViewSubject.setAdapter(recyclerAdapter);
 
 
-    // Bottom sheet dialog: Select menu
-    private void bottomSheetSelectMenu() {
-        bottomSheetMenu = new BottomSheetDialog(getActivity());
-        sheetView = getActivity().getLayoutInflater().inflate(R.layout.bottom_sheet_menu, null);
-        bottomSheetMenu.setContentView(sheetView);
-        initSelectMenu();
-        menuClickListener();
-    }
-    private void initSelectMenu() {
-        exam = sheetView.findViewById(R.id.fragmentMenu1Exam);
-        vdo = sheetView.findViewById(R.id.fragmentMenu1Vdo);
-        files = sheetView.findViewById(R.id.fragmentMenu1Files);
-        delete = sheetView.findViewById(R.id.DialogMenu1Remove);
-    }
-    private void menuClickListener() {
-        exam.setOnClickListener(new View.OnClickListener() {
+        //----------------- Subject list -------------------------------//
+        /*listSubjectID = new ArrayList<>();
+        listSubjectName = new ArrayList<>();
+        subjectAdapter = new SubjectAdapter(listSubjectID, listSubjectName);
+        //GetSubjectFirebase();*/
+
+
+        Query query =  FirebaseDatabase.getInstance().getReference().child("Subject");
+        FirebaseRecyclerOptions<Subject> options = new FirebaseRecyclerOptions.Builder<Subject>()
+                .setQuery(query, Subject.class)
+                .build();
+        recyclerAdapter = new FirebaseRecyclerAdapter<Subject, SubjectViewHolder>(options) {
+
+            @NonNull
             @Override
-            public void onClick(View v) {
-                Toast.makeText(getActivity(), "Exams & Tests", Toast.LENGTH_SHORT).show();
-                Intent exams = new Intent(getActivity(), TeacherMenuExamsActivity.class);
-                startActivity(exams);
+            public SubjectViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_subject_names, parent, false);
+                return new SubjectViewHolder(view);
+            }
+
+            @Override
+            protected void onBindViewHolder(@NonNull SubjectViewHolder holder, int position, @NonNull Subject model) {
+                Subject subject = model;
+                holder.setSubject(subject.getSubjectID(), subject.getSubjectname());
+            }
+        };
+
+    }
+
+    public static class SubjectViewHolder extends RecyclerView.ViewHolder{
+        TextView textSubjectId;
+        TextView textSubject;
+
+        public SubjectViewHolder(View itemView) {
+            super(itemView);
+            textSubjectId = itemView.findViewById(R.id.textSubjectId);
+            textSubject = itemView.findViewById(R.id.textSubject);
+        }
+
+        public void setSubject(String subjectID, String subjectname){
+            textSubjectId.setText(subjectID);
+            textSubject.setText(subjectname);
+        }
+    }
+
+
+    //---------------- Subject List -------------------------------------------------//
+    /*void GetSubjectFirebase(String searchText){
+        Query searchQuery = table_subject.orderByChild("subjectname").startAt(searchText).endAt(searchText + "\uf8ff");
+        searchQuery.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                Subject subject = new Subject();
+                subject = dataSnapshot.getValue(Subject.class);
+                //Add to ArrayList
+                listSubjectID.add(subject);
+                listSubjectName.add(subject);
+                //Add List into Adapter/RecyclerView
+                recyclerViewSubject.setAdapter(subjectAdapter);
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
             }
         });
+    }*/
 
-        vdo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getActivity(), "Video", Toast.LENGTH_SHORT).show();
+    //---------------- Subject List -------------------------------------------------//
+    /*public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.SubjectViewHolder>{
+
+        List<Subject> listArrayID;
+        List<Subject> listArrayName;
+
+        public SubjectAdapter(List<Subject> ListID, List<Subject> ListName){
+            this.listArrayID = ListID;
+            this.listArrayName = ListName;
+        }
+
+        @NonNull
+        @Override
+        public SubjectAdapter.SubjectViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_subject_names, parent, false);
+            return new SubjectViewHolder(v);
+        }
+
+
+
+        @Override
+        public void onBindViewHolder(@NonNull SubjectAdapter.SubjectViewHolder holder, int position) {
+            Subject subjectID = listArrayID.get(position);
+            Subject subjectname = listArrayName.get(position);
+            holder.textSubjectId.setText(subjectID.getSubjectID());
+            holder.textSubject.setText(subjectname.getSubjectname());
+
+        }
+
+        public class SubjectViewHolder extends RecyclerView.ViewHolder{
+            TextView textSubjectId;
+            TextView textSubject;
+
+            public SubjectViewHolder(View itemView) {
+                super(itemView);
+                textSubjectId = itemView.findViewById(R.id.textSubjectId);
+                textSubject = itemView.findViewById(R.id.textSubject);
             }
-        });
+        }
 
-        files.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getActivity(), "Document Files", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getActivity(), "Delete this subject", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-    private void displaySelectMenu() {
-        Toast.makeText(getContext(), "Subject Clicked", Toast.LENGTH_SHORT).show();
-        bottomSheetMenu.show();
-    }
+        @Override
+        public int getItemCount() {
+            return listArrayID.size();
+        }
+    }*/
 
 
-
-    //Flot action button: Add subject
-    private void fabButtomAddSubject() {
-        // Hide Floating Action Button when scrolling in Recycler View
-        recyclerViewSubject.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                if (dy > 0 && fab.getVisibility() == View.VISIBLE) {
-                    fab.hide();
-                } else if (dy < 0 && fab.getVisibility() != View.VISIBLE) {
-                    fab.show();
-                }
-            }
-        });
-        //<-----------------------------------------------------------//>
-    }
 
 
 
 
     @Override
     public void onClick(View v) {
-        if (v == searchBtn) {
-            Toast.makeText(getActivity(), "Started Search", Toast.LENGTH_SHORT).show();
-            firebaseSubjectSearch();
-        } else if (v == fab) {
-            Snackbar.make(view, "Here's a Snackbar", Snackbar.LENGTH_LONG).setAction("Action", new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Log.d("GG", "GG");
-                }
-            }).show();
+        if (v == searchBtn){
+            Toast.makeText(getActivity(), "Search", Toast.LENGTH_SHORT).show();
+            String searchText = searchField.getText().toString().toUpperCase();
+            //GetSubjectFirebase(searchText);
         }
-    }
-
-    private void firebaseSubjectSearch() {
     }
 
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void onStart() {
+        super.onStart();
+        recyclerAdapter.startListening();
+    }
 
-        //Data Array
-        subjects = new ArrayList<>();
-        subjects.add(new Subject("01236120", "Object-Oriented programming"));
-        subjects.add(new Subject("01237550", "Web Technology"));
-        subjects.add(new Subject("01238134", "Mobile Technology"));
-        subjects.add(new Subject("01238134", "Mobile Technology"));
-        subjects.add(new Subject("01238134", "Mobile Technology"));
-        subjects.add(new Subject("01238134", "Mobile Technology"));
-        subjects.add(new Subject("01238134", "Mobile Technology"));
+    @Override
+    public void onStop() {
+        super.onStop();
+        recyclerAdapter.stopListening();
     }
 }

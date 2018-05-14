@@ -19,7 +19,8 @@ import com.google.firebase.database.ValueEventListener;
 
 public class Signin1Activity extends AppCompatActivity{
 
-    private EditText editextUsername, editextPassword;
+    private EditText editextUsername;
+    private EditText editextPassword;
     Button buttonSignin;
 
     @Override

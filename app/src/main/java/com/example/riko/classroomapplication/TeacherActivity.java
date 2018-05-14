@@ -32,7 +32,9 @@ public class TeacherActivity extends AppCompatActivity implements NavigationView
     final String TAG = "TTwTT";
     //-- DrawerLayout --***//
     private DrawerLayout drawerLayout;
-    private TextView textUsername, textStatus, textName;
+    private TextView textUsername;
+    private TextView textStatus;
+    private TextView textName;
     private Toolbar toolbar;
     private NavigationView navigationView;
     private View headerView;
