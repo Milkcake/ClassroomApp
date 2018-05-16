@@ -54,7 +54,7 @@ public class TeacherCoursesFragment extends Fragment implements View.OnClickList
     private LinearLayout exam, vdo, files, delete;
     private FirebaseDatabase database;
     private DatabaseReference table_subject;
-    //private SubjectAdapter subjectAdapter;
+    private SubjectAdapter subjectAdapter;
     private List<Subject> listSubjectID;
     private List<Subject> listSubjectName;
     private FirebaseRecyclerAdapter recyclerAdapter;
@@ -74,8 +74,8 @@ public class TeacherCoursesFragment extends Fragment implements View.OnClickList
 
     private void initInstance() {
         //--------------------- Firebase ----------------------------//
-        //database = FirebaseDatabase.getInstance();
-        //table_subject = database.getReference("Subject");
+        database = FirebaseDatabase.getInstance();
+        table_subject = database.getReference("Subject");
 
         //-------------------- Search --------------------------//
         textSubjectID = view.findViewById(R.id.textSubjectId);
@@ -98,13 +98,13 @@ public class TeacherCoursesFragment extends Fragment implements View.OnClickList
 
 
         //----------------- Subject list -------------------------------//
-        /*listSubjectID = new ArrayList<>();
+        listSubjectID = new ArrayList<>();
         listSubjectName = new ArrayList<>();
         subjectAdapter = new SubjectAdapter(listSubjectID, listSubjectName);
-        //GetSubjectFirebase();*/
+        GetSubjectFirebase();
 
 
-        Query query =  FirebaseDatabase.getInstance().getReference().child("Subject");
+        /*Query query =  FirebaseDatabase.getInstance().getReference().child("Subject");
         FirebaseRecyclerOptions<Subject> options = new FirebaseRecyclerOptions.Builder<Subject>()
                 .setQuery(query, Subject.class)
                 .build();
@@ -122,11 +122,11 @@ public class TeacherCoursesFragment extends Fragment implements View.OnClickList
                 Subject subject = model;
                 holder.setSubject(subject.getSubjectID(), subject.getSubjectname());
             }
-        };
+        };*/
 
     }
 
-    public static class SubjectViewHolder extends RecyclerView.ViewHolder{
+    /*public static class SubjectViewHolder extends RecyclerView.ViewHolder{
         TextView textSubjectId;
         TextView textSubject;
 
@@ -140,13 +140,13 @@ public class TeacherCoursesFragment extends Fragment implements View.OnClickList
             textSubjectId.setText(subjectID);
             textSubject.setText(subjectname);
         }
-    }
+    }*/
 
 
     //---------------- Subject List -------------------------------------------------//
-    /*void GetSubjectFirebase(String searchText){
-        Query searchQuery = table_subject.orderByChild("subjectname").startAt(searchText).endAt(searchText + "\uf8ff");
-        searchQuery.addChildEventListener(new ChildEventListener() {
+    void GetSubjectFirebase(){
+        //Query searchQuery = table_subject.orderByChild("subjectname").startAt(searchText).endAt(searchText + "\uf8ff");
+        table_subject.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 Subject subject = new Subject();
@@ -157,74 +157,56 @@ public class TeacherCoursesFragment extends Fragment implements View.OnClickList
                 //Add List into Adapter/RecyclerView
                 recyclerViewSubject.setAdapter(subjectAdapter);
             }
-
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
             }
-
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-
             }
-
             @Override
             public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
             }
         });
-    }*/
+    }
 
     //---------------- Subject List -------------------------------------------------//
-    /*public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.SubjectViewHolder>{
-
+    public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.SubjectViewHolder>{
         List<Subject> listArrayID;
         List<Subject> listArrayName;
-
         public SubjectAdapter(List<Subject> ListID, List<Subject> ListName){
             this.listArrayID = ListID;
             this.listArrayName = ListName;
         }
-
         @NonNull
         @Override
         public SubjectAdapter.SubjectViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_subject_names, parent, false);
             return new SubjectViewHolder(v);
         }
-
-
-
         @Override
         public void onBindViewHolder(@NonNull SubjectAdapter.SubjectViewHolder holder, int position) {
             Subject subjectID = listArrayID.get(position);
             Subject subjectname = listArrayName.get(position);
             holder.textSubjectId.setText(subjectID.getSubjectID());
             holder.textSubject.setText(subjectname.getSubjectname());
-
         }
-
         public class SubjectViewHolder extends RecyclerView.ViewHolder{
             TextView textSubjectId;
             TextView textSubject;
-
             public SubjectViewHolder(View itemView) {
                 super(itemView);
                 textSubjectId = itemView.findViewById(R.id.textSubjectId);
                 textSubject = itemView.findViewById(R.id.textSubject);
             }
         }
-
         @Override
         public int getItemCount() {
             return listArrayID.size();
         }
-    }*/
+    }
 
 
 
@@ -241,7 +223,7 @@ public class TeacherCoursesFragment extends Fragment implements View.OnClickList
     }
 
 
-    @Override
+   /* @Override
     public void onStart() {
         super.onStart();
         recyclerAdapter.startListening();
@@ -251,5 +233,5 @@ public class TeacherCoursesFragment extends Fragment implements View.OnClickList
     public void onStop() {
         super.onStop();
         recyclerAdapter.stopListening();
-    }
+    }*/
 }

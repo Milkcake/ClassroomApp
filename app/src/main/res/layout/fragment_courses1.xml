@@ -40,7 +40,8 @@
             android:paddingRight="20dp"
             android:paddingTop="10dp"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="16dp" />
+            android:textSize="16dp"
+            android:layout_alignStart="@+id/heading_courses" />
 
         <ImageButton
             android:id="@+id/searchBtn"
@@ -87,7 +88,7 @@
         android:src="@drawable/ic_plus_white"
         app:backgroundTint="@color/colorAccent"
         app:fabSize="normal"
-        app:rippleColor="@android:color/darker_gray" />
+        />
 
 
 </android.support.design.widget.CoordinatorLayout>
